@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  verification: {
+    google: "C9kqjKfCnaNaZlnANTkoJ1LWXLNfzoBxq337Gnt0Hk0",
+  },
   title: {
     default:
       "Pure Black Wallpaper #000000 — Free HD Download for iPhone & AMOLED",
