@@ -45,3 +45,6 @@ github-repo-auto/
 .trae/
 
 .vercel
+
+# IDE
+.idea/
