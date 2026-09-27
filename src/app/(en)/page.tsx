@@ -19,6 +19,10 @@ export const metadata: Metadata = {
     "black background",
     "black desktop wallpaper",
     "#000000 wallpaper",
+    "black vs white screen",
+    "OLED power consumption by color",
+    "red screen test",
+    "blue screen test",
   ],
   alternates: {
     canonical: "/",
@@ -39,36 +43,76 @@ export const metadata: Metadata = {
 
 const USE_CASES = [
   {
-    title: "Dead pixel test",
-    body: "Full-screen #000000 reveals stuck or dead pixels and backlight bleed on any monitor or phone.",
+    title: "Screen testing",
+    body: "Detect dead or stuck pixels, check brightness uniformity and calibrate any monitor, phone or TV.",
   },
   {
-    title: "OLED battery saving",
-    body: "On AMOLED screens black pixels are fully off, cutting display power to almost zero.",
+    title: "Professional presentations",
+    body: "A neutral black field during projections and video calls cuts distractions and hides desktop clutter.",
+  },
+  {
+    title: "Meditation & focus",
+    body: "In a dark room a blank black screen works as a visual aid for relaxation, breathing and focus drills.",
+  },
+  {
+    title: "Video & photo editing",
+    body: "A zero-luminance base template for color grading, contrast checks and letterboxing creative work.",
+  },
+  {
+    title: "OLED / AMOLED energy saving",
+    body: "Self-emissive black pixels switch off completely, so dark screens measurably lower battery drain.",
+  },
+  {
+    title: "Projector calibration",
+    body: "Adjust sharpness, focus and color in a theatre or classroom, and spot light bleed on the lens path.",
+  },
+  {
+    title: "Education & science demos",
+    body: "Demonstrate color theory, additive light and optics principles — black is the absence of emitted light.",
   },
   {
     title: "Burn-in protection",
-    body: "A static pure-black lock or home screen gives self-emissive OLED pixels a rest.",
+    body: "A static pure-black lock or home screen gives hard-working OLED pixels a genuine rest.",
   },
   {
     title: "Minimal dark-mode setup",
-    body: "App icons and widgets pop against true black, for a clean monochrome home screen.",
+    body: "Icons and widgets pop against true #000000, and zero emitted light is easier on the eyes at night.",
+  },
+];
+
+// Relative display-power index for a full-screen solid color on an OLED panel
+// (white = 100). Illustrative values synthesized from published OLED power
+// measurements; actual draw varies by panel generation, brightness and ABL.
+const OLED_POWER = [
+  { color: "#000000", label: "Pure black #000000", value: 5, note: "pixels off" },
+  { color: "#ef4444", label: "Red #FF0000", value: 40 },
+  { color: "#22c55e", label: "Green #00FF00", value: 50 },
+  { color: "#3b82f6", label: "Blue #0000FF", value: 58 },
+  { color: "#ffffff", label: "White #FFFFFF", value: 100, note: "all subpixels on" },
+];
+
+const COLOR_SCREENS = [
+  {
+    name: "White screen",
+    hex: "#ffffff",
+    uses: "Photography backdrop, maximum-brightness test, lightbox, spotting dust on the sensor.",
+    href: "/white-screen",
   },
   {
-    title: "Easier on the eyes at night",
-    body: "Zero emitted light means less glare in dark rooms, especially on OLED phones.",
+    name: "Blue screen",
+    hex: "#1d4ed8",
+    uses: "Revealing LCD backlight bleed and panel glow; AMOLED power comparisons; blue-channel checks.",
   },
   {
-    title: "Projector & display calibration",
-    body: "Use the black field to check uniformity, focus and light bleed in a dark room.",
+    name: "Black screen",
+    hex: "#000000",
+    uses: "Dead & stuck pixel test, OLED battery saving, burn-in rest, less eye fatigue in the dark.",
+    href: "/black-screen",
   },
   {
-    title: "Editing & design base",
-    body: "A neutral zero-luminance background for contrast grading, slides and posters.",
-  },
-  {
-    title: "Focus & relaxation",
-    body: "A blank black screen doubles as a distraction-free timer, clock or meditation aid.",
+    name: "Red screen",
+    hex: "#dc2626",
+    uses: "Night use without harsh blue light, sleep-friendly viewing, red-channel color calibration.",
   },
 ];
 
@@ -236,6 +280,70 @@ export default function Home() {
                 </p>
               </div>
             </div>
+            {/* OLED power-by-color comparison */}
+            <h3 className="mt-10 text-lg font-semibold text-white">
+              OLED power use by screen color
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-zinc-500">
+              Relative display-power index for a full-screen solid color, white
+              = 100, measured at a fixed brightness on a typical OLED panel.
+              Black draws almost nothing because the pixels are off — every
+              lit color, including dark-looking ones, costs substantially more.
+            </p>
+            <div className="mt-6 space-y-3 rounded-xl border border-zinc-800 bg-zinc-950/60 p-5 sm:p-6">
+              {OLED_POWER.map((row) => (
+                <div key={row.label} className="flex items-center gap-3">
+                  <span
+                    aria-hidden
+                    className="h-4 w-4 shrink-0 rounded-sm ring-1 ring-zinc-700"
+                    style={{ backgroundColor: row.color }}
+                  />
+                  <span className="w-40 shrink-0 text-xs font-medium text-zinc-300 sm:text-sm">
+                    {row.label}
+                  </span>
+                  <span className="relative h-5 flex-1 overflow-hidden rounded bg-zinc-900">
+                    <span
+                      className="absolute inset-y-0 left-0 rounded bg-gradient-to-r from-zinc-600 to-zinc-300"
+                      style={{ width: `${Math.max(row.value, 3)}%` }}
+                    />
+                  </span>
+                  <span className="w-20 shrink-0 text-right text-xs tabular-nums text-zinc-400 sm:text-sm">
+                    {row.value}
+                    {row.note ? (
+                      <span className="block text-[10px] text-zinc-600">
+                        {row.note}
+                      </span>
+                    ) : null}
+                  </span>
+                </div>
+              ))}
+              <div className="flex items-center gap-3 border-t border-zinc-800 pt-3">
+                <span
+                  aria-hidden
+                  className="h-4 w-4 shrink-0 rounded-sm bg-zinc-400 ring-1 ring-zinc-700"
+                />
+                <span className="w-40 shrink-0 text-xs font-medium text-zinc-300 sm:text-sm">
+                  Any color on LCD
+                </span
+                >
+                <span className="relative h-5 flex-1 overflow-hidden rounded bg-zinc-900">
+                  <span className="absolute inset-y-0 left-0 w-[95%] rounded bg-gradient-to-r from-zinc-700 to-zinc-500" />
+                </span>
+                <span className="w-20 shrink-0 text-right text-xs tabular-nums text-zinc-400 sm:text-sm">
+                  ~95
+                  <span className="block text-[10px] text-zinc-600">
+                    backlight on
+                  </span>
+                </span>
+              </div>
+            </div>
+            <p className="mt-3 text-xs leading-relaxed text-zinc-600">
+              Illustrative index based on published OLED power measurements.
+              Actual consumption varies by panel generation, brightness and
+              automatic brightness limiting (ABL). On LCD screens the backlight
+              stays on for every color, so black saves no power there.
+            </p>
+
             <p className="mt-5 text-sm text-zinc-500">
               Android presets include 1440 × 3120 (QHD+ flagships) and
               1080 × 2400 (the most common FHD+ resolution) — pick the
@@ -286,6 +394,83 @@ export default function Home() {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Color screen comparison */}
+        <section
+          id="screen-colors"
+          className="border-t border-zinc-900 bg-zinc-950/40"
+        >
+          <div className="mx-auto max-w-4xl scroll-mt-20 px-5 py-16">
+            <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+              Black vs White vs Blue vs Red Screen — When to Use Each
+            </h2>
+            <p className="mt-4 leading-relaxed text-zinc-400">
+              A full-screen solid color is one of the oldest display-diagnostic
+              tricks — each color reveals a different set of problems and suits
+              a different task. This table covers the four screens people
+              search for most.
+            </p>
+            <div className="mt-8 overflow-x-auto rounded-xl border border-zinc-800">
+              <table className="w-full min-w-[560px] border-collapse text-left text-sm">
+                <thead>
+                  <tr className="bg-zinc-950 text-xs uppercase tracking-wide text-zinc-500">
+                    <th className="px-5 py-3 font-medium">Screen</th>
+                    <th className="px-5 py-3 font-medium">
+                      Best use cases
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-zinc-800">
+                  {COLOR_SCREENS.map((row) => (
+                    <tr key={row.name} className="align-top">
+                      <td className="px-5 py-4">
+                        <span className="flex items-center gap-2.5 font-semibold text-white">
+                          <span
+                            aria-hidden
+                            className="h-4 w-4 shrink-0 rounded-sm ring-1 ring-zinc-700"
+                            style={{ backgroundColor: row.hex }}
+                          />
+                          {row.href ? (
+                            <a
+                              href={row.href}
+                              className="underline-offset-4 hover:underline"
+                            >
+                              {row.name}
+                            </a>
+                          ) : (
+                            row.name
+                          )}
+                        </span>
+                      </td>
+                      <td className="px-5 py-4 leading-relaxed text-zinc-400">
+                        {row.uses}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="mt-4 text-sm text-zinc-500">
+              Tip: run every color at full brightness in a dark room — a dead
+              pixel shows as a permanent dark dot on white, while a stuck pixel
+              glows on black. Our{" "}
+              <a
+                href="/black-screen"
+                className="text-zinc-300 underline-offset-4 hover:underline"
+              >
+                full-screen black
+              </a>{" "}
+              and{" "}
+              <a
+                href="/white-screen"
+                className="text-zinc-300 underline-offset-4 hover:underline"
+              >
+                full-screen white
+              </a>{" "}
+              tools work on any device with no download.
+            </p>
           </div>
         </section>
 

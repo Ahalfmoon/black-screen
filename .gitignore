@@ -43,3 +43,5 @@ next-env.d.ts
 # local skill / agent files
 github-repo-auto/
 .trae/
+
+.vercel
