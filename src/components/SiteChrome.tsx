@@ -91,7 +91,24 @@ export function SiteFooter({ lang = "en" }: { lang?: Lang }) {
             </li>
           ))}
         </ul>
-        <p className="mt-8 text-xs text-zinc-600">
+        <div className="mt-8">
+          <a
+            href="https://startupfa.st"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Powered by Startup Fast"
+            className="inline-block"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://startupfa.st/images/badges/powered-by-light.svg"
+              alt="Powered by Startup Fast"
+              width="150"
+              height="44"
+            />
+          </a>
+        </div>
+        <p className="mt-6 text-xs text-zinc-600">
           © {new Date().getFullYear()} PureBlack.screen · #000000 / #FFFFFF ·{" "}
           {lang === "de"
             ? "Kostenlos, ohne Wasserzeichen, ohne Anmeldung"
